@@ -1,10 +1,8 @@
-import './Note.css';
-
 function Note(props) {
 
   return (
     <div className="Note">
-        <p>{props.note}</p>
+        <p>{props.note.content}</p>
     </div>
   );
 }
