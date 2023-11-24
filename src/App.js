@@ -2,9 +2,20 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const date = new Date()
+  const a = 10
+  const b = 20
+  console.log(date, a+b)
+
   return (
     <div className="App">
-      <header className="App-header">
+        <div>
+          <p>Hello world, it is {date.toString()}</p>
+          <p>
+            {a} plus {b} is {a + b}
+          </p>
+        </div>
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -17,7 +28,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
     </div>
   );
 }
