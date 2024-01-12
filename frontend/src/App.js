@@ -1,11 +1,18 @@
-import logo from './logo.svg';
 import Note from './components/Note';
 import NewNote from './components/NewNote';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import noteService from './services/notes'
 
 function App(props) {
     const [notes, setNotes] = useState(props.notes)
+
+    useEffect(() => {
+        noteService
+        .getAll()
+        .then(response => {
+            setNotes(response.data)      })
+        }, [])
 
     const addNote = (newNote) => {
         setNotes([newNote, ...notes])
