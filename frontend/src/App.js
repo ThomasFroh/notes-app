@@ -11,11 +11,26 @@ function App(props) {
         noteService
         .getAll()
         .then(response => {
-            setNotes(response.data)      })
+            console.log(response)
+            setNotes(response)
+        })
+        .catch(err => {
+            console.log('attempted to get all notes but error')
+            throw err
+        })
         }, [])
 
     const addNote = (newNote) => {
-        setNotes([newNote, ...notes])
+        noteService
+        .create(newNote)
+        .then(() => {
+            console.log('new note added')
+            setNotes([newNote, ...notes])
+        })
+        .catch(err => {
+            console.log('could not add note')
+            throw err
+        })
     }
 
     return (

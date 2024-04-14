@@ -5,7 +5,6 @@ function NewNote({ onAddNote }) {
     const [newNote, setNewNote] = useState('')
 
     const handleInputChange = (event) => {
-        console.log(event.target.value)
         setNewNote(event.target.value)
     }
 
