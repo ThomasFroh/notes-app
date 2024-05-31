@@ -9,7 +9,7 @@ function App(props) {
 
     useEffect(() => {
         noteService
-        .getAll()
+        .getAllNotes()
         .then(response => {
             console.log(response)
             setNotes(response)
@@ -22,7 +22,7 @@ function App(props) {
 
     const addNote = (newNote) => {
         noteService
-        .create(newNote)
+        .createNote(newNote)
         .then(() => {
             console.log('new note added')
             setNotes([newNote, ...notes])
@@ -33,13 +33,30 @@ function App(props) {
         })
     }
 
+    // setNotes([notes.filter((note, i) => {
+    //     note.id !== id
+    // })])
+
+    const deleteNote = (id) => {
+        noteService
+        .deleteNote(id)
+        .then(() => {
+            console.log('note deleted')
+            setNotes(notes.filter(note => note.id !== id))
+        })
+        .catch(err => {
+            console.log('could not delete note')
+            throw err
+        })
+    }
+
     return (
         <div className="App">
             <h1>Notes App</h1>
             <NewNote onAddNote={addNote} ></NewNote>
             <ul>
                 {notes.map(note => 
-                    <Note key={note.id} note={note} ></Note>
+                    <Note key={note.id} note={note} onDeleteNote={deleteNote}></Note>
                 )}
             </ul>
         </div>

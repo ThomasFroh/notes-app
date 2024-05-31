@@ -1,22 +1,28 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/api/notes'
 
-const getAll = async () => {
+const getAllNotes = async () => {
   const request = axios.get(baseUrl)
   const response = await request
   return response.data
 }
 
-const create = async newObject => {
+const createNote = async newObject => {
   const request = axios.post(baseUrl, newObject)
   const response = await request
   return response.data
 }
 
-const update = async (id, newObject) => {
+const updateNote = async (id, newObject) => {
   const request = axios.put(`${baseUrl}/${id}`, newObject)
   const response = await request
   return response.data
 }
 
-export default { getAll, create, update }
+const deleteNote = async id => {
+  const request = axios.delete(`${baseUrl}/${id}`, id)
+  const response = await request
+  return response
+}
+
+export default { getAllNotes, createNote, updateNote, deleteNote }

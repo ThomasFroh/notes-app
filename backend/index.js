@@ -70,10 +70,17 @@ app.post('/api/notes', (request, response) => {
 })
 
 app.delete('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
-  notes = notes.filter(note => note.id !== id)
+  // const id = Number(request.params.id)
+  const sql = `DELETE FROM note WHERE id = '${String(request.params.id)}'`
 
-  response.status(204).end()
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.error('error delete note: ', err)
+      return response.status(500).json({ error: 'Error deleting note' })
+    }
+    console.log('note deleted')
+    response.status(204).end()
+  })
 })
 
 const PORT = process.env.PORT || 3001

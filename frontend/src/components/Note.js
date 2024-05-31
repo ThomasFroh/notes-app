@@ -1,8 +1,15 @@
-function Note(props) {
+function Note({ note, onDeleteNote }) {
+
+    const handleDelete = (e) => {
+        e.preventDefault()
+
+        onDeleteNote(note.id)
+    }
 
     return (
         <div className="Note">
-            <p>{props.note.content}</p>
+            <text>{note.content}</text>
+            <button onClick={handleDelete}>X</button>
         </div>
     );
 }
