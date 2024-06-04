@@ -11,7 +11,6 @@ function App(props) {
         noteService
         .getAllNotes()
         .then(response => {
-            console.log(response)
             setNotes(response)
         })
         .catch(err => {
@@ -32,10 +31,6 @@ function App(props) {
             throw err
         })
     }
-
-    // setNotes([notes.filter((note, i) => {
-    //     note.id !== id
-    // })])
 
     const deleteNote = (id) => {
         noteService

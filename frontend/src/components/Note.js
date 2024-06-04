@@ -6,9 +6,15 @@ function Note({ note, onDeleteNote }) {
         onDeleteNote(note.id)
     }
 
+    const handleEdit = (e) => {
+        e.preventDefault()
+
+        console.log("here's where we'll edit the note somehow and turn it into a text box")
+    }
+
     return (
         <div className="Note">
-            <text>{note.content}</text>
+            <text onClick={handleEdit}>{note.content}</text>
             <button onClick={handleDelete}>X</button>
         </div>
     );
