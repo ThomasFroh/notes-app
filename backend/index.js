@@ -16,7 +16,7 @@ app.get("*", (req, res) => {
 })
 
 app.get("/api", (req, res) => {
-  res.json({ message: "Hello from backend!" })
+  res.json({ message: "Hello from backend!"})
 })
 
 app.get('/', (request, response) => {

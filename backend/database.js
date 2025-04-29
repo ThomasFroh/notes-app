@@ -1,10 +1,17 @@
+if (process.env.NODE_ENV === 'production') {
+    require('dotenv').config({ path: '.env.prod' })
+} else {
+    require('dotenv').config({ path: '.env.local' })
+}
+
 const mysql = require('mysql2')
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    database: 'notes_database',
-    user: 'root',
-    password: 'root',
-})
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+  });
 
 module.exports = connection
