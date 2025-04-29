@@ -9,7 +9,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/api/notes', (request, response) => {
-  const sql = "SELECT * FROM NOTE";
+  const sql = "SELECT * FROM note";
   connection.query(sql, function(err, notes) {
     if (err) {
       console.log('err')
