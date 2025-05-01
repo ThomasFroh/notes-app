@@ -9,24 +9,8 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, "client/build")))
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"))
-  })
-}
-
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from backend!"})
-})
-
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
-
 app.get('/api/notes', (request, response) => {
-  const sql = "SELECT * FROM NOTE";
+  const sql = "SELECT * FROM note";
   connection.query(sql, function(err, notes) {
     if (err) {
       console.log('err')
@@ -127,4 +111,20 @@ app.listen(PORT, () => {
       console.log('connection created with mysql successfully')
     }
   })
+})
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, "client/build")))
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"))
+  })
+}
+
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from backend!"})
+})
+
+app.get('/', (request, response) => {
+  response.send('<h1>Hello World!</h1>')
 })

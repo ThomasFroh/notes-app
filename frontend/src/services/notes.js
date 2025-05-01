@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = process.env.NODE_ENV === 'production' ? 'http://3.145.86.212/api/notes' : 'http://localhost:3001/api/notes'
+const baseUrl = process.env.NODE_ENV === 'production' ? '/api/notes' : 'http://localhost:3001/api/notes'
 
 const getAllNotes = async () => {
   const request = axios.get(baseUrl)
