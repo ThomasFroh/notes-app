@@ -2,6 +2,7 @@ const express = require('express')
 const path = require("path")
 const cors = require('cors')
 const connection = require('./database')
+const Note = require('./models/note')
 
 const app = express()
 
@@ -53,7 +54,7 @@ app.get('/api/notes/:id', (request, response) => {
 //   return maxId + 1
 // }
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', async (request, response) => {
   const body = request.body
 
   if (!body.content) {
@@ -62,23 +63,42 @@ app.post('/api/notes', (request, response) => {
     })
   }
 
-  const note = {
-    content: body.content,
-    important: Boolean(body.important) || false,
-    id: body.id,
+  try {
+    const note = Note.build({
+      content: body.content,
+      important: Boolean(body.important) || false,
+      id: body.id,
+    })
+
+  // const note = new Note({
+  //   content: body.content,
+  //   important: Boolean(body.important) || false,
+  //   id: body.id,
+  // })
+
+  // const note = {
+  //   content: body.content,
+  //   important: Boolean(body.important) || false,
+  //   id: body.id,
+  // }
+
+    await note.save();
+    res.status(201).json(note);
+  } catch (error) {
+    res.status(500).json({ error: err.message });
   }
 
-  const sql = "INSERT INTO note SET ?"
+  // const sql = "INSERT INTO note SET ?"
 
-  connection.query(sql, note, (err, result) => {
-    if (err) {
-      console.error('error inserting note: ', err)
-      return response.status(500).json({ error: 'Error inserting note' })
-    }
+  // connection.query(sql, note, (err, result) => {
+  //   if (err) {
+  //     console.error('error inserting note: ', err)
+  //     return response.status(500).json({ error: 'Error inserting note' })
+  //   }
 
-    console.log('new note inserted')
-    response.status(201).json(note)
-  })
+  //   console.log('new note inserted')
+  //   response.status(201).json(note)
+  // })
 })
 
 app.delete('/api/notes/:id', (request, response) => {
