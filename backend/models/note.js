@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Adjust the path as needed
+const sequelize = require('../database'); // Adjust the path as needed
 
-const Note = sequelize.define('Note', {
+const Note = sequelize.define('note', { // Changed model name to 'note'
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -16,6 +16,7 @@ const Note = sequelize.define('Note', {
         allowNull: true,
     },
 }, {
+    tableName: 'note', // Explicitly specify the table name
     timestamps: false, // Disable automatic createdAt and updatedAt fields
 });
 
