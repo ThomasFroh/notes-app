@@ -14,10 +14,10 @@ if (process.env.NODE_ENV === 'production') {
     dotenv.config({ path: envPath })
 }
 
-const DB_NAME = process.env.DB_NAME
+const DB_HOST = process.env.DB_HOST
 const DB_USER = process.env.DB_USER
 const DB_PASSWORD = process.env.DB_PASSWORD
 const PORT = process.env.PORT || 3001
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
-module.exports = { DB_NAME, DB_USER, DB_PASSWORD, PORT, NODE_ENV }
+module.exports = { DB_HOST, DB_USER, DB_PASSWORD, PORT, NODE_ENV }
