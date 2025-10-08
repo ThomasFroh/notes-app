@@ -3,8 +3,7 @@ const sequelize = require('../database'); // Adjust the path as needed
 
 const User = sequelize.define('user', { // Changed model name to 'user'
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: false,
+        type: DataTypes.STRING,
         primaryKey: true,
         allowNull: false,
         unique: true,
@@ -17,14 +16,6 @@ const User = sequelize.define('user', { // Changed model name to 'user'
         type: DataTypes.STRING,
         allowNull: false,
     },
-    // createdAt: {
-    //     type: DataTypes.DATE,
-    //     allowNull: false,
-    // },
-    // updatedAt: {
-    //     type: DataTypes.DATE,
-    //     allowNull: false,
-    // },
 }, {
     tableName: 'user', // Explicitly specify the table name
     timestamps: true, // Enable automatic createdAt and updatedAt fields

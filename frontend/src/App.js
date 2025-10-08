@@ -1,6 +1,7 @@
 import Note from './components/Note';
 import NewNote from './components/NewNote';
 import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 import './App.css';
 import { useState, useEffect } from 'react';
 import noteService from './services/notes'
@@ -74,6 +75,19 @@ function App(props) {
         }
     }
 
+    const handleRegister = async ({ id, username, password }) => {
+        try {
+            const user = await loginService.register({ id, username, password })
+            window.localStorage.setItem('loggedNoteAppUser', JSON.stringify(user))
+            noteService.setToken(user.token)
+            setUser(user)
+        }
+        catch (err) {
+            console.log('could not register')
+            throw err
+        }
+    }
+
     const handleLogout = () => {
         window.localStorage.removeItem('loggedNoteAppUser')
         setUser(null)
@@ -83,6 +97,7 @@ function App(props) {
         <div className="App">
             <h1>Notes App</h1>
             {!user && <LoginForm onLogin={handleLogin} />}
+            {!user && <RegisterForm onRegister={handleRegister} />}
             {user && (
                 <>
                     <button onClick={handleLogout}>Logout</button>

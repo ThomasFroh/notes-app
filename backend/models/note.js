@@ -3,7 +3,7 @@ const sequelize = require('../database'); // Adjust the path as needed
 
 const Note = sequelize.define('note', { // Changed model name to 'note'
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         autoIncrement: false,
         primaryKey: true,
         allowNull: false,
@@ -23,7 +23,7 @@ const Note = sequelize.define('note', { // Changed model name to 'note'
     },
 }, {
     tableName: 'note', // Explicitly specify the table name
-    timestamps: false, // Disable automatic createdAt and updatedAt fields
+    timestamps: true, // Enable automatic createdAt and updatedAt fields
 });
 
 module.exports = Note;
