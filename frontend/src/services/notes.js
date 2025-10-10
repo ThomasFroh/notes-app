@@ -16,6 +16,15 @@ const getAllNotes = async () => {
   return response.data
 }
 
+const getUserNotes = async (user_id) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  const request = axios.get(`${baseUrl}/${user_id}`, config)
+  const response = await request
+  return response.data
+}
+
 const createNote = async newObject => {
   const config = {
     headers: { Authorization: token }
@@ -37,4 +46,4 @@ const deleteNote = async id => {
   return response
 }
 
-export default { getAllNotes, createNote, updateNote, deleteNote, setToken }
+export default { getAllNotes, getUserNotes, createNote, updateNote, deleteNote, setToken }

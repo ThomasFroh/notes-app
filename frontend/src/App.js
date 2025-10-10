@@ -6,9 +6,10 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import noteService from './services/notes'
 import loginService from './services/login'
+import { Table } from 'react-bootstrap';
 
 function App(props) {
-    const [notes, setNotes] = useState(props.notes)
+    const [notes, setNotes] = useState([])
     const [user, setUser] = useState(null)
 
     useEffect(() => {
@@ -17,7 +18,6 @@ function App(props) {
             const user = JSON.parse(loggedUserJSON)
             setUser(user)
             noteService.setToken(user.token)
-            getNotes()
         }
     }, [])
 
@@ -29,6 +29,18 @@ function App(props) {
         })
         .catch(err => {
             console.log('attempted to get all notes but error')
+            throw err
+        })
+    }
+
+    const getUserNotes = (userId) => {
+        noteService
+        .getUserNotes(userId)
+        .then(response => {
+            setNotes(response)
+        })
+        .catch(err => {
+            console.log('could not get user notes')
             throw err
         })
     }
@@ -68,7 +80,7 @@ function App(props) {
             window.localStorage.setItem('loggedNoteAppUser', JSON.stringify(user))
             noteService.setToken(user.token)
             setUser(user)
-            getNotes()
+            getUserNotes(user.id)
         } catch (err) {
             console.log('could not login')
             throw err
@@ -91,10 +103,11 @@ function App(props) {
     const handleLogout = () => {
         window.localStorage.removeItem('loggedNoteAppUser')
         setUser(null)
+        setNotes([])
     }
 
     return (
-        <div className="App">
+        <div className="container">
             <h1>Notes App</h1>
             {!user && <LoginForm onLogin={handleLogin} />}
             {!user && <RegisterForm onRegister={handleRegister} />}
@@ -102,11 +115,13 @@ function App(props) {
                 <>
                     <button onClick={handleLogout}>Logout</button>
                     <NewNote onAddNote={addNote} ></NewNote>
-                    <ul>
-                        {notes.map(note => 
-                            <Note key={note.id} note={note} onDeleteNote={deleteNote}></Note>
-                        )}
-                    </ul>
+                    <Table striped>
+                        <tbody>
+                            {notes.map(note => 
+                                <Note key={note.id} note={note} onDeleteNote={deleteNote}></Note>
+                            )}
+                        </tbody>
+                    </Table>
                 </>
             )}
         </div>

@@ -13,10 +13,10 @@ function Note({ note, onDeleteNote }) {
     }
 
     return (
-        <div className="Note">
-            <text onClick={handleEdit}>{note.content}</text>
+        <tr>
+            <td key={note.id} onClick={handleEdit}>{note.content}</td>
             <button onClick={handleDelete}>X</button>
-        </div>
+        </tr>
     );
 }
 

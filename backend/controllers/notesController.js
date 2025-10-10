@@ -26,6 +26,12 @@ notesRouter.get('/', async (request, response) => {
     }
 });
 
+notesRouter.get('/:user_id', async (request, response) => {
+    const user_id = String(request.params.user_id);
+    const notes = await Note.findAll({ where: { user_id } });
+    response.json(notes);
+});
+
 notesRouter.get('/:id', async (request, response) => {
     const id = String(request.params.id);
 
