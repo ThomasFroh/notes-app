@@ -20,5 +20,6 @@ const DB_PASSWORD = process.env.DB_PASSWORD
 const DB_NAME = process.env.DB_NAME
 const PORT = process.env.PORT || 3001
 const NODE_ENV = process.env.NODE_ENV || 'development'
+const SECRET = process.env.SECRET
 
-module.exports = { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PORT, NODE_ENV }
+module.exports = { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, PORT, NODE_ENV, SECRET }

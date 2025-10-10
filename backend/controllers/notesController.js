@@ -1,7 +1,22 @@
 const notesRouter = require('express').Router()
 const Note = require('../models/note')
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+const config = require('../utils/config')
+
+const getTokenFrom = request => {
+    const authorization = request.get('Authorization')
+    if (authorization && authorization.startsWith('Bearer ')) {
+      return authorization.replace('Bearer ', '')
+    }
+    return null
+  }
 
 notesRouter.get('/', async (request, response) => {
+    const decodedToken = jwt.verify(getTokenFrom(request), config.SECRET)
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
     try {
       const notes = await Note.findAll(); // Assuming 'Note' is your Sequelize model
       response.json(notes);
@@ -9,6 +24,12 @@ notesRouter.get('/', async (request, response) => {
       console.error('Database query failed:', err);
       response.status(500).json({ error: 'Failed to fetch notes' });
     }
+});
+
+notesRouter.get('/:user_id', async (request, response) => {
+    const user_id = String(request.params.user_id);
+    const notes = await Note.findAll({ where: { user_id } });
+    response.json(notes);
 });
 
 notesRouter.get('/:id', async (request, response) => {
@@ -63,6 +84,16 @@ notesRouter.put('/:id', async (request, response) => {
 
 notesRouter.post('/', async (request, response) => {
     const body = request.body
+    const decodedToken = jwt.verify(getTokenFrom(request), config.SECRET)
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    console.log('decodedToken: ', decodedToken)
+    const user = await User.findByPk(decodedToken.id)
+
+    if (!user) {
+        return response.status(404).json({ error: 'User not found' })
+    }
 
     if (!body.content) {
         return response.status(400).json({ 
@@ -75,6 +106,7 @@ notesRouter.post('/', async (request, response) => {
         content: body.content,
         important: Boolean(body.important) || false,
         id: body.id,
+        user_id: user.id,
     })
 
     // const note = {

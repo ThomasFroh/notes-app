@@ -1,14 +1,35 @@
 import axios from 'axios'
 const baseUrl = process.env.NODE_ENV === 'production' ? '/api/notes' : 'http://localhost:3001/api/notes'
 
+let token = null
+
+const setToken = newToken => {
+  token = `Bearer ${newToken}`
+}
+
 const getAllNotes = async () => {
-  const request = axios.get(baseUrl)
+  const config = {
+    headers: { Authorization: token }
+  }
+  const request = axios.get(baseUrl, config)
+  const response = await request
+  return response.data
+}
+
+const getUserNotes = async (user_id) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  const request = axios.get(`${baseUrl}/${user_id}`, config)
   const response = await request
   return response.data
 }
 
 const createNote = async newObject => {
-  const request = axios.post(baseUrl, newObject)
+  const config = {
+    headers: { Authorization: token }
+  }
+  const request = axios.post(baseUrl, newObject, config)
   const response = await request
   return response.data
 }
@@ -25,4 +46,4 @@ const deleteNote = async id => {
   return response
 }
 
-export default { getAllNotes, createNote, updateNote, deleteNote }
+export default { getAllNotes, getUserNotes, createNote, updateNote, deleteNote, setToken }
