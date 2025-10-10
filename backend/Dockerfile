@@ -8,7 +8,7 @@
     RUN cd frontend && npm install
     
     # Copy frontend source and build it
-    COPY frontend ./frontend
+    COPY frontend/ ./frontend/
     RUN cd frontend && npm run build
     
     # ---- Stage 2: Run backend ----
@@ -17,11 +17,11 @@
     WORKDIR /app
     
     # Copy backend dependencies and install
-    COPY backend/package*.json ./
+    COPY backend/package*.json ./backend/
     RUN npm install --production
     
     # Copy backend source code
-    COPY backend/ .
+    COPY backend/ ./backend/
     
     # Copy built frontend files into backend's public directory
     COPY --from=build /app/frontend/build ./frontend/build
